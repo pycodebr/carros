@@ -1,17 +1,26 @@
-import os
-import openai
+from openai import OpenAI
+
+
+client = OpenAI(
+    api_key='API_KEY'
+)
 
 
 def get_car_ai_bio(model, brand, year):
-    prompt = ''''
+    message = ''''
     Me mostre uma descrição de venda para o carro {} {} {} em apenas 250 caracteres. Fale coisas específicas desse modelo.
     Descreva especificações técnicas desse modelo de carro.
     '''
-    openai.api_key = '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'
-    prompt = prompt.format(brand, model, year)
-    response = openai.Completion.create(
-        model='text-davinci-003',
-        prompt=prompt,
+    message = message.format(brand, model, year)
+    response = client.chat.completions.create(
+        messages=[
+            {
+                'role': 'user',
+                'content': message
+            }
+        ],
         max_tokens=1000,
+        model='gpt-3.5-turbo',
     )
-    return response['choices'][0]['text']
+
+    return response.choices[0].message.content
