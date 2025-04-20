@@ -1,26 +1,22 @@
-from openai import OpenAI
+#instalar a versão 0.28 com o comando abaixo:
+# pip install openai==0.28
+
+import openai
 
 
-client = OpenAI(
-    api_key='API_KEY'
-)
+openai.api_key= 'SUA API KEY AQUI'
+
 
 
 def get_car_ai_bio(model, brand, year):
-    message = ''''
-    Me mostre uma descrição de venda para o carro {} {} {} em apenas 250 caracteres. Fale coisas específicas desse modelo.
-    Descreva especificações técnicas desse modelo de carro.
-    '''
-    message = message.format(brand, model, year)
-    response = client.chat.completions.create(
-        messages=[
-            {
+   response  = openai.ChatCompletion.create(
+       model = 'gpt-3.5-turbo',
+         messages = [
+              {
                 'role': 'user',
-                'content': message
-            }
-        ],
-        max_tokens=1000,
-        model='gpt-3.5-turbo',
+                'content': f'Crie uma biografia para o carro {model} da marca {brand} do ano {year} resumido em 250 caracteres'
+              }
+         ],
+            max_tokens = 1000,
     )
-
-    return response.choices[0].message.content
+   return response.choices[0].message.content
