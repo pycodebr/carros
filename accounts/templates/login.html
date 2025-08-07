@@ -1,13 +1,26 @@
 {% extends "base.html" %}
 
+{% block title %}Entrar · Carros{% endblock %}
+
 {% block content %}
-    <form method="post">
+  <section class="auth-wrap">
+    <div class="card glass card-md">
+      <h1 class="card-title">Bem-vindo de volta</h1>
+      <p class="card-subtitle">Acesse sua conta para continuar</p>
+      <form method="post" class="ui-form">
         {% csrf_token %}
-
-        <table>
-            {{ login_form.as_table }}
-        </table>
-
-        <input type="submit" value="Entrar">
-    </form>
+        {% for field in login_form %}
+          <div class="form-field">
+            <label class="form-label">{{ field.label }}</label>
+            <div class="form-control">{{ field }}</div>
+            {% if field.errors %}
+              <div class="field-error">{{ field.errors|striptags }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      </form>
+      <p class="muted center">Não tem conta? <a href="{% url 'register' %}" class="link">Criar conta</a></p>
+    </div>
+  </section>
 {% endblock %}

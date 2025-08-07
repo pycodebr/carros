@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 
+{% block title %}Novo carro · Carros{% endblock %}
+
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <table>
-            {{ form.as_table }}
-        </table>
-
-        <input type="submit" value="Cadastrar" class="btn btn-primary">
+  <section class="page-header">
+    <h1 class="page-title">Cadastrar carro</h1>
+    <p class="page-subtitle">Preencha os campos abaixo</p>
+  </section>
+  <div class="card glass card-lg">
+    <form method="post" enctype="multipart/form-data" class="ui-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-field">
+          <label class="form-label">{{ field.label }}</label>
+          <div class="form-control">{{ field }}</div>
+          {% if field.help_text %}
+            <div class="field-help">{{ field.help_text|safe }}</div>
+          {% endif %}
+          {% if field.errors %}
+            <div class="field-error">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <a href="{% url 'cars_list' %}" class="btn btn-ghost">Cancelar</a>
+      </div>
     </form>
+  </div>
 {% endblock %}

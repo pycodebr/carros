@@ -1,30 +1,29 @@
 {% extends "base.html" %}
 
+{% block title %}Criar conta · Carros{% endblock %}
+
 {% block content %}
-
-    <form method="post">
+  <section class="auth-wrap">
+    <div class="card glass card-md">
+      <h1 class="card-title">Criar conta</h1>
+      <p class="card-subtitle">Junte-se e comece a gerenciar seus carros</p>
+      <form method="post" class="ui-form">
         {% csrf_token %}
-        <div class="form-group">
-            {{ user_form.username.errors }}
-            <label>Usuário: </label>
-            {{ user_form.username }}
-        </div>
-
-        <div class="form-group">
-            {{ user_form.password1.errors }}
-            <label>Senha: </label>
-            {{ user_form.password1 }}
-        </div>
-
-        <div class="form-group">
-            {{ user_form.password2.errors }}
-            <label>Confirmação de senha: </label>
-            {{ user_form.password2 }}
-        </div>
-
-        <div class="form-group">
-            <input type="submit" value="Cadastrar">
-        </div>
-    </form>
-
+        {% for field in user_form %}
+          <div class="form-field">
+            <label class="form-label">{{ field.label }}</label>
+            <div class="form-control">{{ field }}</div>
+            {% if field.help_text %}
+              <div class="field-help">{{ field.help_text|safe }}</div>
+            {% endif %}
+            {% if field.errors %}
+              <div class="field-error">{{ field.errors|striptags }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+      </form>
+      <p class="muted center">Já possui conta? <a href="{% url 'login' %}" class="link">Entrar</a></p>
+    </div>
+  </section>
 {% endblock %}
