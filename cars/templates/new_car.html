@@ -1,13 +1,143 @@
 {% extends "base.html" %}
 
+{% block title %}Cadastrar Novo Carro - PycodeBR Multimarcas{% endblock %}
+
 {% block content %}
+  <div class="page-header">
+    <h1 class="page-title">Cadastrar Novo Carro</h1>
+    <p class="page-subtitle">Adicione um novo veículo à sua coleção</p>
+  </div>
+
+  <div class="form-container animate-fade-in">
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+      {% csrf_token %}
 
-        <table>
-            {{ form.as_table }}
-        </table>
+      <div class="form-group">
+        <label for="{{ form.brand.id_for_label }}" class="form-label">{{ form.brand.label }}</label>
+        {{ form.brand }}
+        {% if form.brand.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.brand.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
-        <input type="submit" value="Cadastrar" class="btn btn-primary">
+      <div class="form-group">
+        <label for="{{ form.model.id_for_label }}" class="form-label">{{ form.model.label }}</label>
+        {{ form.model }}
+        {% if form.model.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.model.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.factory_year.id_for_label }}" class="form-label">{{ form.factory_year.label }}</label>
+        {{ form.factory_year }}
+        {% if form.factory_year.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.factory_year.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.model_year.id_for_label }}" class="form-label">{{ form.model_year.label }}</label>
+        {{ form.model_year }}
+        {% if form.model_year.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.model_year.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.plate.id_for_label }}" class="form-label">{{ form.plate.label }}</label>
+        {{ form.plate }}
+        {% if form.plate.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.plate.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.value.id_for_label }}" class="form-label">{{ form.value.label }}</label>
+        {{ form.value }}
+        {% if form.value.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.value.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.photo.id_for_label }}" class="form-label">{{ form.photo.label }}</label>
+        {{ form.photo }}
+        {% if form.photo.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.photo.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if form.bio %}
+      <div class="form-group">
+        <label for="{{ form.bio.id_for_label }}" class="form-label">{{ form.bio.label }}</label>
+        {{ form.bio }}
+        {% if form.bio.errors %}
+          <div class="text-error mt-1">
+            {% for error in form.bio.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="flex-center" style="gap: 1rem; margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary btn-lg">
+          <span>✨</span>
+          Cadastrar Carro
+        </button>
+        <a href="{% url 'cars_list' %}" class="btn btn-outline btn-lg">
+          <span>↩️</span>
+          Cancelar
+        </a>
+      </div>
     </form>
+  </div>
+
+  <script>
+    // Add classes to form fields for consistent styling
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="file"], select, textarea');
+      inputs.forEach(input => {
+        if (input.type === 'file') {
+          input.classList.add('form-input');
+        } else if (input.tagName === 'SELECT') {
+          input.classList.add('form-select');
+        } else if (input.tagName === 'TEXTAREA') {
+          input.classList.add('form-textarea');
+        } else {
+          input.classList.add('form-input');
+        }
+      });
+    });
+  </script>
 {% endblock %}

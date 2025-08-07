@@ -1,30 +1,86 @@
 {% extends "base.html" %}
 
+{% block title %}Criar Conta - PycodeBR Multimarcas{% endblock %}
+
 {% block content %}
+  <div class="page-header">
+    <h1 class="page-title">Criar Conta</h1>
+    <p class="page-subtitle">Junte-se à nossa plataforma automotiva premium</p>
+  </div>
 
+  <div class="form-container animate-fade-in">
     <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ user_form.username.errors }}
-            <label>Usuário: </label>
-            {{ user_form.username }}
-        </div>
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="{{ user_form.username.id_for_label }}" class="form-label">{{ user_form.username.label }}</label>
+        {{ user_form.username }}
+        {% if user_form.username.errors %}
+          <div class="text-error mt-1">
+            {% for error in user_form.username.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
-        <div class="form-group">
-            {{ user_form.password1.errors }}
-            <label>Senha: </label>
-            {{ user_form.password1 }}
-        </div>
+      <div class="form-group">
+        <label for="{{ user_form.password1.id_for_label }}" class="form-label">{{ user_form.password1.label }}</label>
+        {{ user_form.password1 }}
+        {% if user_form.password1.errors %}
+          <div class="text-error mt-1">
+            {% for error in user_form.password1.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
-        <div class="form-group">
-            {{ user_form.password2.errors }}
-            <label>Confirmação de senha: </label>
-            {{ user_form.password2 }}
-        </div>
+      <div class="form-group">
+        <label for="{{ user_form.password2.id_for_label }}" class="form-label">{{ user_form.password2.label }}</label>
+        {{ user_form.password2 }}
+        {% if user_form.password2.errors %}
+          <div class="text-error mt-1">
+            {% for error in user_form.password2.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
+      {% if user_form.non_field_errors %}
         <div class="form-group">
-            <input type="submit" value="Cadastrar">
+          <div class="text-error">
+            {% for error in user_form.non_field_errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
         </div>
+      {% endif %}
+
+      <div class="text-center" style="margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary btn-lg">
+          <span>🚀</span>
+          Criar Conta
+        </button>
+      </div>
+
+      <div class="text-center mt-3">
+        <p class="text-muted">Já tem uma conta?</p>
+        <a href="{% url 'login' %}" class="btn btn-outline">
+          <span>🔓</span>
+          Fazer Login
+        </a>
+      </div>
     </form>
+  </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+      inputs.forEach(input => {
+        input.classList.add('form-input');
+      });
+    });
+  </script>
 {% endblock %}

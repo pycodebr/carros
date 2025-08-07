@@ -1,13 +1,74 @@
 {% extends "base.html" %}
 
+{% block title %}Login - PycodeBR Multimarcas{% endblock %}
+
 {% block content %}
+  <div class="page-header">
+    <h1 class="page-title">Entrar</h1>
+    <p class="page-subtitle">Acesse sua conta para gerenciar seus carros</p>
+  </div>
+
+  <div class="form-container animate-fade-in">
     <form method="post">
-        {% csrf_token %}
+      {% csrf_token %}
 
-        <table>
-            {{ login_form.as_table }}
-        </table>
+      <div class="form-group">
+        <label for="{{ login_form.username.id_for_label }}" class="form-label">{{ login_form.username.label }}</label>
+        {{ login_form.username }}
+        {% if login_form.username.errors %}
+          <div class="text-error mt-1">
+            {% for error in login_form.username.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
 
-        <input type="submit" value="Entrar">
+      <div class="form-group">
+        <label for="{{ login_form.password.id_for_label }}" class="form-label">{{ login_form.password.label }}</label>
+        {{ login_form.password }}
+        {% if login_form.password.errors %}
+          <div class="text-error mt-1">
+            {% for error in login_form.password.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if login_form.non_field_errors %}
+        <div class="form-group">
+          <div class="text-error">
+            {% for error in login_form.non_field_errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="text-center" style="margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary btn-lg">
+          <span>🔓</span>
+          Entrar
+        </button>
+      </div>
+
+      <div class="text-center mt-3">
+        <p class="text-muted">Não tem uma conta?</p>
+        <a href="{% url 'register' %}" class="btn btn-outline">
+          <span>✨</span>
+          Criar Conta
+        </a>
+      </div>
     </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+      inputs.forEach(input => {
+        input.classList.add('form-input');
+      });
+    });
+  </script>
 {% endblock %}

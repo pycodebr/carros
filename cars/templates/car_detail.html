@@ -1,103 +1,97 @@
 {% extends "base.html" %}
 
+{% block title %}{{ object.brand }} {{ object.model }} - PycodeBR Multimarcas{% endblock %}
+
 {% block content %}
-  <style>
-    .car-card {
-      background-color: #e3e1e1;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-      overflow: hidden;
-      text-align: center;
-      transition: all 0.3s ease;
-      max-width: 500px;
-      margin: 20px auto 0;
-      margin-bottom: 20px;
-    }
-
-    .car-card:hover {
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .car-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .car-card h2 {
-      font-size: 1.5rem;
-      margin: 10px;
-    }
-
-    .car-card p {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
-    .buttons-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      background-color: #0096c7;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-      margin: 0 10px;
-    }
-
-    .btn:hover {
-      background-color: #108eb8;
-    }
-
-    .btn-danger {
-      background-color: #d9534f;
-      text-decoration: none !important;
-    }
-
-    .btn-danger:hover {
-      background-color: #d2221c;
-    }
-
-    .error-message {
-      color: #d9534f;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    a {
-      text-decoration: none !important;
-    }
-  </style>
-  <div class="car-card">
-    {% if object.photo %}
-      <img src="{{ object.photo.url }}" alt="{{ object.model }} - {{ object.brand }}">
-    {% else %}
-      <p class="no-photo">Foto não disponível</p>
-    {% endif %}
-    <h2>{{ object.brand }} {{ object.model }}</h2>
-    <p><strong>Ano de fabricação:</strong> {{ object.factory_year }}</p>
-    <p><strong>Ano do modelo:</strong> {{ object.model_year }}</p>
-    <p><strong>Placa:</strong> {{ object.plate }}</p>
-    <p><strong>Preço:</strong> R$ {{ object.value }}</p>
-    {% if object.bio %}
-      <p><strong>Bio:</strong> {{ object.bio }}</p>
-    {% endif %}
+  <div class="page-header">
+    <a href="{% url 'cars_list' %}" class="btn btn-outline mb-3">
+      <span>←</span> Voltar aos Carros
+    </a>
   </div>
-  {% if user.is_authenticated %}
-    <div class="buttons-container">
-      <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
-      <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+
+  <div class="grid grid-cols-1" style="max-width: 900px; margin: 0 auto; gap: 2rem;">
+    <div class="card animate-fade-in">
+      <div class="car-card-image" style="border-radius: var(--radius-xl); overflow: hidden; height: 400px; margin-bottom: var(--space-lg);">
+        {% if object.photo %}
+          <img src="{{ object.photo.url }}" alt="{{ object.brand }} {{ object.model }}" style="width: 100%; height: 100%; object-fit: cover;">
+        {% else %}
+          <div class="no-photo" style="height: 100%;">
+            <span style="font-size: 4rem;">📷</span>
+            <p>Foto não disponível</p>
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="card-header">
+        <h1 class="card-title">{{ object.brand }} {{ object.model }}</h1>
+        <p class="card-subtitle">Informações detalhadas do veículo</p>
+      </div>
+
+      <div class="card-body">
+        <div class="grid grid-cols-2" style="gap: 1.5rem;">
+          <div class="card" style="background: rgba(255,255,255,0.02);">
+            <div class="card-body">
+              <h4 style="color: var(--accent-info); margin-bottom: 0.5rem;">📅 Ano de Fabricação</h4>
+              <p style="font-size: var(--text-2xl); font-weight: 700; color: var(--white); margin: 0;">{{ object.factory_year }}</p>
+            </div>
+          </div>
+          
+          <div class="card" style="background: rgba(255,255,255,0.02);">
+            <div class="card-body">
+              <h4 style="color: var(--accent-info); margin-bottom: 0.5rem;">🗓️ Ano do Modelo</h4>
+              <p style="font-size: var(--text-2xl); font-weight: 700; color: var(--white); margin: 0;">{{ object.model_year }}</p>
+            </div>
+          </div>
+          
+          <div class="card" style="background: rgba(255,255,255,0.02);">
+            <div class="card-body">
+              <h4 style="color: var(--accent-info); margin-bottom: 0.5rem;">🏷️ Placa</h4>
+              <p style="font-size: var(--text-xl); font-family: var(--font-accent); color: var(--white); margin: 0;">{{ object.plate }}</p>
+            </div>
+          </div>
+          
+          <div class="card" style="background: rgba(255,255,255,0.02);">
+            <div class="card-body">
+              <h4 style="color: var(--accent-success); margin-bottom: 0.5rem;">💰 Preço</h4>
+              <p style="font-size: var(--text-2xl); font-weight: 700; color: var(--accent-success); margin: 0; text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);">R$ {{ object.value|floatformat:2 }}</p>
+            </div>
+          </div>
+        </div>
+
+        {% if object.bio %}
+          <div class="card mt-3" style="background: rgba(255,255,255,0.02);">
+            <div class="card-header">
+              <h4 style="color: var(--accent-info);">📝 Descrição</h4>
+            </div>
+            <div class="card-body">
+              <p style="line-height: 1.8; color: var(--neutral-lightest);">{{ object.bio }}</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if user.is_authenticated %}
+        <div class="card-footer">
+          <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-primary">
+            <span>✏️</span>
+            Editar
+          </a>
+          <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">
+            <span>🗑️</span>
+            Deletar
+          </a>
+        </div>
+      {% endif %}
     </div>
-  {% endif %}
+  </div>
+
+  <script>
+    // Add smooth scroll to top when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
 {% endblock %}

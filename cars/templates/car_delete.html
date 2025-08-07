@@ -1,63 +1,60 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Deletar Carro - CarrosFuture{% endblock %}
 
 {% block content %}
-  <style>
-    .buttons-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      background-color: #0096c7;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-      margin: 0 10px;
-    }
-
-    .btn:hover {
-      background-color: #108eb8;
-    }
-
-    .btn-danger {
-      background-color: #d9534f;
-      text-decoration: none !important;
-    }
-
-    .btn-danger:hover {
-      background-color: #d2221c;
-    }
-
-    .error-message {
-      color: #d9534f;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    a {
-      text-decoration: none !important;
-    }
-  </style>
-  <div class="card">
-    <div class="card-header">
-      <h1 class="card-title">Deletar Carro</h1>
-    </div>
-    <div class="card-body">
-      <p>Tem certeza que deseja deletar o carro <strong>{{ object.brand }} {{ object.model }}</strong>?</p>
-      <form method="post">
-        {% csrf_token %}
-        <div class="buttons-container">
-          <button type="submit" class="btn btn-danger">Deletar Carro</button>
-          <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-secondary">Cancelar</a>
+<div class="container">
+    <div class="delete-container">
+        <div class="delete-header">
+            <div class="delete-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h1 class="delete-title">Confirmar Exclusão</h1>
+            <div class="delete-subtitle">Esta ação não pode ser desfeita</div>
         </div>
-      </form>
+
+        <div class="delete-content">
+            <div class="car-preview">
+                {% if object.photo %}
+                    <div class="car-image">
+                        <img src="{{ object.photo.url }}" alt="{{ object.brand }} {{ object.model }}">
+                    </div>
+                {% else %}
+                    <div class="car-image-placeholder">
+                        <i class="fas fa-car"></i>
+                    </div>
+                {% endif %}
+                <div class="car-info">
+                    <h3>{{ object.brand }} {{ object.model }}</h3>
+                    <p>{{ object.factory_year }} • Placa: {{ object.plate|default:"N/A" }}</p>
+                    <p class="car-value">R$ {{ object.value|floatformat:2 }}</p>
+                </div>
+            </div>
+
+            <div class="warning-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <strong>Atenção!</strong><br>
+                    Tem certeza que deseja deletar o veículo <strong>{{ object.brand }} {{ object.model }}</strong>?
+                    Todos os dados relacionados a este carro serão perdidos permanentemente.
+                </div>
+            </div>
+
+            <form method="post" class="delete-form">
+                {% csrf_token %}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        <i class="fas fa-trash-alt"></i>
+                        Sim, Deletar Carro
+                    </button>
+                    <a href="{% url 'car_detail' pk=object.pk %}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-arrow-left"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
 {% endblock %}
