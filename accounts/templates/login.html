@@ -1,13 +1,573 @@
 {% extends "base.html" %}
 
+{% block title %}Login - Acesso Seguro{% endblock %}
+
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
+    <!-- Authentication Header -->
+    <div class="auth-container fade-in">
+        <div class="auth-header">
+            <div class="auth-icon">🔐</div>
+            <h1 class="auth-title">Acesso Seguro</h1>
+            <p class="auth-subtitle">Entre no sistema futurístico de gerenciamento automotivo</p>
+        </div>
 
-        <table>
-            {{ login_form.as_table }}
-        </table>
+        <!-- Login Form -->
+        <div class="auth-form-container">
+            <form method="post" class="auth-form">
+                {% csrf_token %}
 
-        <input type="submit" value="Entrar">
-    </form>
+                <div class="form-grid">
+                    <!-- Username/Email Field -->
+                    <div class="form-group">
+                        {{ login_form.username }}
+                        <label for="{{ login_form.username.id_for_label }}" class="floating-label">
+                            👤 {{ login_form.username.label }}
+                        </label>
+                        {% if login_form.username.errors %}
+                            <div class="error-message">{{ login_form.username.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        {{ login_form.password }}
+                        <label for="{{ login_form.password.id_for_label }}" class="floating-label">
+                            🔑 {{ login_form.password.label }}
+                        </label>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <span id="toggle-icon">👁️</span>
+                        </button>
+                        {% if login_form.password.errors %}
+                            <div class="error-message">{{ login_form.password.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Form Errors -->
+                {% if login_form.non_field_errors %}
+                    <div class="form-errors">
+                        {% for error in login_form.non_field_errors %}
+                            <div class="error-alert">
+                                <span class="error-icon">⚠️</span>
+                                <span>{{ error }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Submit Button -->
+                <button type="submit" class="auth-btn">
+                    <span class="btn-icon">🚀</span>
+                    <span>Entrar no Sistema</span>
+                </button>
+
+                <!-- Additional Options -->
+                <div class="auth-options">
+                    <div class="auth-links">
+                        <a href="{% url 'register' %}" class="auth-link">
+                            <span>📝</span>
+                            Não tem conta? Cadastre-se
+                        </a>
+                    </div>
+                    
+                    <div class="guest-access">
+                        <a href="{% url 'cars_list' %}" class="guest-link">
+                            <span>👁️</span>
+                            Continuar como visitante
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Security Features -->
+        <div class="security-info glass-card">
+            <h4 style="color: var(--accent-cyan); margin-bottom: 1rem;">🛡️ Sistema Seguro</h4>
+            <div class="security-features">
+                <div class="security-feature">
+                    <span class="feature-icon">🔐</span>
+                    <span>Autenticação Criptografada</span>
+                </div>
+                <div class="security-feature">
+                    <span class="feature-icon">🔒</span>
+                    <span>Sessões Protegidas</span>
+                </div>
+                <div class="security-feature">
+                    <span class="feature-icon">🛡️</span>
+                    <span>Dados Seguros</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Authentication Page Specific Styles */
+    .auth-container {
+        max-width: 500px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .auth-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: glow 2s ease-in-out infinite;
+    }
+    
+    @keyframes glow {
+        0%, 100% { 
+            text-shadow: 0 0 20px var(--accent-blue);
+            transform: scale(1);
+        }
+        50% { 
+            text-shadow: 0 0 30px var(--accent-cyan);
+            transform: scale(1.05);
+        }
+    }
+    
+    .auth-title {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        font-weight: 900;
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+    
+    .auth-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .auth-form-container {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 3rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: var(--shadow-card);
+        position: relative;
+    }
+    
+    .auth-form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--gradient-accent);
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .auth-form {
+        position: relative;
+    }
+    
+    .form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .form-group {
+        position: relative;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 1.2rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-family: var(--font-body);
+        transition: var(--transition-fast);
+        outline: none;
+    }
+    
+    .form-group input::placeholder {
+        color: transparent;
+    }
+    
+    .form-group input:focus {
+        border-color: var(--accent-blue);
+        box-shadow: var(--glow-primary);
+        transform: translateY(-2px);
+    }
+    
+    .floating-label {
+        position: absolute;
+        top: 1.2rem;
+        left: 1.5rem;
+        color: rgba(255, 255, 255, 0.6);
+        pointer-events: none;
+        transition: var(--transition-fast);
+        background: var(--primary-dark);
+        padding: 0 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .form-group input:focus + .floating-label,
+    .form-group input:not(:placeholder-shown) + .floating-label {
+        top: -0.5rem;
+        font-size: 0.9rem;
+        color: var(--accent-blue);
+        text-shadow: 0 0 10px rgba(0,212,255,0.5);
+    }
+    
+    .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: var(--transition-fast);
+        z-index: 2;
+    }
+    
+    .password-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--accent-cyan);
+    }
+    
+    .form-errors {
+        margin: 1rem 0;
+    }
+    
+    .error-alert {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 51, 51, 0.1);
+        border: 1px solid rgba(255, 51, 51, 0.3);
+        border-radius: 10px;
+        padding: 1rem;
+        color: var(--warning-red);
+        margin-bottom: 0.5rem;
+        animation: shake 0.5s ease-in-out;
+    }
+    
+    .error-icon {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    
+    .auth-btn {
+        width: 100%;
+        padding: 1.2rem 2rem;
+        background: var(--gradient-secondary);
+        border: none;
+        border-radius: 15px;
+        color: #ffffff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: var(--transition-bounce);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 2rem 0;
+    }
+    
+    .auth-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-accent);
+        transition: var(--transition-smooth);
+        z-index: 0;
+    }
+    
+    .auth-btn:hover::before {
+        left: 0;
+    }
+    
+    .auth-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-elevated);
+    }
+    
+    .auth-btn span {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .btn-icon {
+        font-size: 1.3rem;
+    }
+    
+    .auth-options {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
+        text-align: center;
+    }
+    
+    .auth-links {
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--accent-cyan);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        background: rgba(0, 212, 255, 0.1);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        transition: var(--transition-fast);
+    }
+    
+    .auth-link:hover {
+        background: rgba(0, 212, 255, 0.2);
+        transform: translateY(-2px);
+        box-shadow: var(--glow-primary);
+        text-shadow: 0 0 10px rgba(0,212,255,0.5);
+    }
+    
+    .guest-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        transition: var(--transition-fast);
+    }
+    
+    .guest-link:hover {
+        color: var(--accent-purple);
+        background: rgba(139, 92, 246, 0.1);
+    }
+    
+    .security-info {
+        margin-top: 3rem;
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    .security-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .security-feature {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        transition: var(--transition-fast);
+        font-size: 0.95rem;
+    }
+    
+    .security-feature:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .feature-icon {
+        font-size: 1.1rem;
+        color: var(--accent-blue);
+    }
+    
+    /* Error States */
+    .form-group input.error {
+        border-color: var(--warning-red);
+        box-shadow: var(--glow-error);
+    }
+    
+    .form-group input.error + .floating-label {
+        color: var(--warning-red);
+    }
+    
+    /* Loading State */
+    .auth-form.loading .auth-btn {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+    
+    .auth-form.loading .auth-btn::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid transparent;
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        right: 1rem;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .auth-container {
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .auth-form-container {
+            padding: 2rem 1.5rem;
+        }
+        
+        .auth-title {
+            font-size: 2rem;
+        }
+        
+        .security-features {
+            grid-template-columns: 1fr;
+        }
+        
+        .auth-links {
+            margin-bottom: 1rem;
+        }
+    }
+    
+    /* Accessibility */
+    .auth-form:focus-within {
+        outline: 2px solid var(--accent-blue);
+        outline-offset: 4px;
+        border-radius: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const authForm = document.querySelector('.auth-form');
+    const inputs = document.querySelectorAll('.form-group input');
+    const passwordInput = document.getElementById('{{ login_form.password.id_for_label }}');
+    
+    // Form submission handling
+    authForm.addEventListener('submit', function() {
+        authForm.classList.add('loading');
+        
+        // Disable form after submission
+        const submitBtn = this.querySelector('.auth-btn');
+        submitBtn.disabled = true;
+        
+        // Re-enable after timeout (fallback)
+        setTimeout(() => {
+            authForm.classList.remove('loading');
+            submitBtn.disabled = false;
+        }, 10000);
+    });
+    
+    // Enhanced form validation
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.checkValidity() && this.value.trim()) {
+                this.classList.remove('error');
+                this.classList.add('success');
+            } else if (!this.checkValidity() || !this.value.trim()) {
+                this.classList.remove('success');
+                this.classList.add('error');
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            this.classList.remove('error', 'success');
+        });
+    });
+    
+    // Auto-focus first input
+    const firstInput = document.getElementById('{{ login_form.username.id_for_label }}');
+    if (firstInput) {
+        firstInput.focus();
+    }
+    
+    // Add enter key support
+    inputs.forEach(input => {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                authForm.submit();
+            }
+        });
+    });
+});
+
+// Password toggle functionality
+function togglePassword() {
+    const passwordInput = document.getElementById('{{ login_form.password.id_for_label }}');
+    const toggleIcon = document.getElementById('toggle-icon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.textContent = '🙈';
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.textContent = '👁️';
+    }
+}
+
+// Add some visual effects
+document.addEventListener('DOMContentLoaded', function() {
+    // Create floating particles for auth page
+    const authContainer = document.querySelector('.auth-container');
+    
+    function createAuthParticle() {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.width = '2px';
+        particle.style.height = '2px';
+        particle.style.background = 'var(--accent-blue)';
+        particle.style.borderRadius = '50%';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = '100%';
+        particle.style.opacity = '0.6';
+        particle.style.pointerEvents = 'none';
+        particle.style.animation = 'float 4s linear forwards';
+        particle.style.zIndex = '-1';
+        
+        authContainer.style.position = 'relative';
+        authContainer.appendChild(particle);
+        
+        setTimeout(() => {
+            particle.remove();
+        }, 4000);
+    }
+    
+    // Create particles periodically
+    setInterval(createAuthParticle, 2000);
+});
+</script>
 {% endblock %}

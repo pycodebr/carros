@@ -1,13 +1,509 @@
 {% extends "base.html" %}
 
+{% block title %}Cadastrar Novo Veículo{% endblock %}
+
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    <!-- Form Header -->
+    <div class="form-container fade-in">
+        <div class="form-header">
+            <h1 class="form-title">🚗 Cadastrar Novo Veículo</h1>
+            <p style="text-align: center; color: rgba(255,255,255,0.8); margin-bottom: 2rem;">
+                Adicione um novo veículo ao seu catálogo futurístico
+            </p>
+        </div>
 
-        <table>
-            {{ form.as_table }}
-        </table>
+        <!-- Modern Form -->
+        <form method="post" enctype="multipart/form-data" class="futuristic-form">
+            {% csrf_token %}
 
-        <input type="submit" value="Cadastrar" class="btn btn-primary">
-    </form>
+            <div class="form-grid">
+                <!-- Brand Field -->
+                <div class="form-group">
+                    {{ form.brand }}
+                    <label for="{{ form.brand.id_for_label }}" class="floating-label">
+                        🏭 {{ form.brand.label }}
+                    </label>
+                    {% if form.brand.errors %}
+                        <div class="error-message">{{ form.brand.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Model Field -->
+                <div class="form-group">
+                    {{ form.model }}
+                    <label for="{{ form.model.id_for_label }}" class="floating-label">
+                        🚙 {{ form.model.label }}
+                    </label>
+                    {% if form.model.errors %}
+                        <div class="error-message">{{ form.model.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Factory Year Field -->
+                <div class="form-group">
+                    {{ form.factory_year }}
+                    <label for="{{ form.factory_year.id_for_label }}" class="floating-label">
+                        📅 {{ form.factory_year.label }}
+                    </label>
+                    {% if form.factory_year.errors %}
+                        <div class="error-message">{{ form.factory_year.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Model Year Field -->
+                <div class="form-group">
+                    {{ form.model_year }}
+                    <label for="{{ form.model_year.id_for_label }}" class="floating-label">
+                        🗓️ {{ form.model_year.label }}
+                    </label>
+                    {% if form.model_year.errors %}
+                        <div class="error-message">{{ form.model_year.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Plate Field -->
+                <div class="form-group">
+                    {{ form.plate }}
+                    <label for="{{ form.plate.id_for_label }}" class="floating-label">
+                        🏷️ {{ form.plate.label }}
+                    </label>
+                    {% if form.plate.errors %}
+                        <div class="error-message">{{ form.plate.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Value Field -->
+                <div class="form-group">
+                    {{ form.value }}
+                    <label for="{{ form.value.id_for_label }}" class="floating-label">
+                        💰 {{ form.value.label }}
+                    </label>
+                    {% if form.value.errors %}
+                        <div class="error-message">{{ form.value.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Photo Upload Section -->
+            <div class="form-group photo-upload-group">
+                <div class="upload-area" id="photo-upload-area">
+                    {{ form.photo }}
+                    <div class="upload-placeholder">
+                        <div class="upload-icon">📸</div>
+                        <h3>Foto do Veículo</h3>
+                        <p>Clique para selecionar ou arraste uma imagem aqui</p>
+                        <div class="upload-formats">
+                            Formatos: JPG, PNG, WebP (Máx: 5MB)
+                        </div>
+                    </div>
+                    <div class="upload-preview" style="display: none;">
+                        <img id="preview-image" src="" alt="Preview">
+                        <button type="button" class="remove-preview">✕</button>
+                    </div>
+                </div>
+                {% if form.photo.errors %}
+                    <div class="error-message">{{ form.photo.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Biography/Description Field -->
+            <div class="form-group">
+                {{ form.bio }}
+                <label for="{{ form.bio.id_for_label }}" class="floating-label">
+                    📝 {{ form.bio.label }}
+                </label>
+                <div class="form-help">
+                    Descreva características especiais, histórico, condição do veículo, etc.
+                </div>
+                {% if form.bio.errors %}
+                    <div class="error-message">{{ form.bio.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="form-btn">
+                    <span>✨ Cadastrar Veículo</span>
+                </button>
+                
+                <a href="{% url 'cars_list' %}" class="btn btn-secondary">
+                    <span>↩️ Cancelar</span>
+                </a>
+            </div>
+        </form>
+
+        <!-- Form Tips -->
+        <div class="form-tips glass-card" style="margin-top: 2rem;">
+            <h4 style="color: var(--accent-cyan); margin-bottom: 1rem;">💡 Dicas para um bom cadastro:</h4>
+            <ul>
+                <li>📷 Use fotos de alta qualidade com boa iluminação</li>
+                <li>📝 Descreva características importantes no campo bio</li>
+                <li>🔢 Valores em reais (ex: 45000 para R$ 45.000)</li>
+                <li>🏷️ Placa no formato ABC-1234 ou ABC1234</li>
+                <li>📅 Anos devem ser válidos e realistas</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* New Car Form Specific Styles */
+    .form-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .futuristic-form {
+        position: relative;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .form-group {
+        position: relative;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 1.2rem 1.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-family: var(--font-body);
+        transition: var(--transition-fast);
+        outline: none;
+    }
+    
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: transparent;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: var(--accent-blue);
+        box-shadow: var(--glow-primary);
+        transform: translateY(-2px);
+    }
+    
+    .floating-label {
+        position: absolute;
+        top: 1.2rem;
+        left: 1.5rem;
+        color: rgba(255, 255, 255, 0.6);
+        pointer-events: none;
+        transition: var(--transition-fast);
+        background: var(--primary-dark);
+        padding: 0 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .form-group input:focus + .floating-label,
+    .form-group input:not(:placeholder-shown) + .floating-label,
+    .form-group textarea:focus + .floating-label,
+    .form-group textarea:not(:placeholder-shown) + .floating-label,
+    .form-group select:focus + .floating-label {
+        top: -0.5rem;
+        font-size: 0.9rem;
+        color: var(--accent-blue);
+        text-shadow: 0 0 10px rgba(0,212,255,0.5);
+    }
+    
+    .form-group select option {
+        background: var(--secondary-dark);
+        color: #ffffff;
+        padding: 0.5rem;
+    }
+    
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+    
+    /* Photo Upload Styles */
+    .photo-upload-group {
+        grid-column: 1 / -1;
+    }
+    
+    .upload-area {
+        position: relative;
+        min-height: 200px;
+        border: 2px dashed rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        transition: var(--transition-fast);
+        cursor: pointer;
+        overflow: hidden;
+    }
+    
+    .upload-area:hover {
+        border-color: var(--accent-blue);
+        background: rgba(0, 212, 255, 0.1);
+        box-shadow: var(--glow-primary);
+    }
+    
+    .upload-area input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+    }
+    
+    .upload-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem;
+        text-align: center;
+        height: 100%;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+    }
+    
+    .upload-placeholder h3 {
+        color: var(--accent-cyan);
+        margin-bottom: 0.5rem;
+        font-family: var(--font-heading);
+    }
+    
+    .upload-placeholder p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 1rem;
+    }
+    
+    .upload-formats {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    
+    .upload-preview {
+        position: relative;
+        height: 200px;
+    }
+    
+    .upload-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+    }
+    
+    .remove-preview {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 51, 51, 0.9);
+        border: none;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        z-index: 3;
+    }
+    
+    .form-help {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-style: italic;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 3rem;
+        flex-wrap: wrap;
+    }
+    
+    .form-tips {
+        padding: 2rem;
+    }
+    
+    .form-tips ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .form-tips li {
+        margin: 0.8rem 0;
+        padding: 0.5rem 0;
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .form-tips li:last-child {
+        border-bottom: none;
+    }
+    
+    /* Error States */
+    .form-group input.error,
+    .form-group select.error,
+    .form-group textarea.error {
+        border-color: var(--warning-red);
+        box-shadow: var(--glow-error);
+    }
+    
+    .form-group input.error + .floating-label {
+        color: var(--warning-red);
+    }
+    
+    /* Success States */
+    .form-group input.success,
+    .form-group select.success,
+    .form-group textarea.success {
+        border-color: var(--success-green);
+        box-shadow: var(--glow-success);
+    }
+    
+    .form-group input.success + .floating-label {
+        color: var(--success-green);
+    }
+    
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-container {
+            margin: 1rem;
+            padding: 2rem 1.5rem;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .upload-placeholder {
+            padding: 2rem 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Photo upload preview functionality
+    const photoInput = document.getElementById('{{ form.photo.id_for_label }}');
+    const uploadArea = document.getElementById('photo-upload-area');
+    const placeholder = uploadArea.querySelector('.upload-placeholder');
+    const preview = uploadArea.querySelector('.upload-preview');
+    const previewImg = document.getElementById('preview-image');
+    const removeBtn = uploadArea.querySelector('.remove-preview');
+    
+    photoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                alert('Por favor, selecione um arquivo de imagem válido (JPG, PNG ou WebP)');
+                return;
+            }
+            
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('A imagem deve ter no máximo 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                placeholder.style.display = 'none';
+                preview.style.display = 'block';
+                uploadArea.style.borderStyle = 'solid';
+                uploadArea.style.borderColor = 'var(--success-green)';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    removeBtn.addEventListener('click', function() {
+        photoInput.value = '';
+        placeholder.style.display = 'flex';
+        preview.style.display = 'none';
+        uploadArea.style.borderStyle = 'dashed';
+        uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+    });
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'var(--accent-blue)';
+        uploadArea.style.background = 'rgba(0, 212, 255, 0.1)';
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        uploadArea.style.background = 'rgba(255, 255, 255, 0.05)';
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        uploadArea.style.background = 'rgba(255, 255, 255, 0.05)';
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            photoInput.files = files;
+            photoInput.dispatchEvent(new Event('change'));
+        }
+    });
+    
+    // Form validation enhancement
+    const inputs = document.querySelectorAll('.form-group input, .form-group select, .form-group textarea');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.checkValidity()) {
+                this.classList.remove('error');
+                this.classList.add('success');
+            } else {
+                this.classList.remove('success');
+                this.classList.add('error');
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            this.classList.remove('error', 'success');
+        });
+    });
+});
+</script>
 {% endblock %}

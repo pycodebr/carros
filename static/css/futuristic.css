@@ -1,0 +1,911 @@
+/* ===================================================
+   CARROS FUTURISTIC DESIGN SYSTEM
+   Modern Automotive Management Interface
+   =================================================== */
+
+/* ===================================================
+   1. CSS VARIABLES & CUSTOM PROPERTIES
+   =================================================== */
+:root {
+  /* Primary Colors - Neon Blue Spectrum */
+  --primary-dark: #0a0e27;
+  --primary-medium: #1a1f3a;
+  --primary-light: #2a3f5f;
+  --primary-accent: #00d4ff;
+  --primary-glow: #00ffff;
+  
+  /* Secondary Colors - Purple Gradient */
+  --secondary-dark: #1e0033;
+  --secondary-medium: #3a0066;
+  --secondary-light: #6600cc;
+  --secondary-accent: #9933ff;
+  --secondary-glow: #cc66ff;
+  
+  /* Accent Colors */
+  --accent-success: #00ff88;
+  --accent-warning: #ffaa00;
+  --accent-danger: #ff0055;
+  --accent-info: #00aaff;
+  
+  /* Neutral Colors */
+  --neutral-100: #ffffff;
+  --neutral-200: #f0f0f0;
+  --neutral-300: #d0d0d0;
+  --neutral-400: #a0a0a0;
+  --neutral-500: #707070;
+  --neutral-600: #404040;
+  --neutral-700: #2a2a2a;
+  --neutral-800: #1a1a1a;
+  --neutral-900: #0a0a0a;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #0099ff 50%, #0066ff 100%);
+  --gradient-secondary: linear-gradient(135deg, #9933ff 0%, #6600cc 50%, #3a0066 100%);
+  --gradient-danger: linear-gradient(135deg, #ff0055 0%, #cc0044 50%, #990033 100%);
+  --gradient-success: linear-gradient(135deg, #00ff88 0%, #00cc66 50%, #009944 100%);
+  --gradient-dark: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-accent: 'Orbitron', 'Courier New', monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.2);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.3);
+  --shadow-xl: 0 16px 32px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px rgba(0,212,255,0.5);
+  --shadow-glow-intense: 0 0 40px rgba(0,212,255,0.8);
+  
+  /* Animations */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+/* ===================================================
+   2. GLOBAL STYLES & RESETS
+   =================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--primary-dark);
+  color: var(--neutral-200);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0,212,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(153,51,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(0,255,136,0.05) 0%, transparent 50%);
+  z-index: -1;
+  animation: backgroundPulse 20s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ===================================================
+   3. TYPOGRAPHY
+   =================================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-accent);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--spacing-md);
+}
+
+h1 { font-size: 3rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 2rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: var(--spacing-md);
+  color: var(--neutral-300);
+}
+
+a {
+  color: var(--primary-accent);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+a:hover {
+  color: var(--primary-glow);
+  text-shadow: 0 0 10px rgba(0,212,255,0.8);
+}
+
+/* ===================================================
+   4. NAVIGATION & HEADER
+   =================================================== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(10,14,39,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,212,255,0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-2xl);
+  height: 70px;
+}
+
+.nav-brand {
+  font-family: var(--font-accent);
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+nav ul li {
+  position: relative;
+}
+
+nav ul li a {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(0,212,255,0.2);
+  color: var(--neutral-200);
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+nav ul li a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  z-index: -1;
+}
+
+nav ul li a:hover {
+  color: var(--primary-dark);
+  border-color: var(--primary-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,212,255,0.4);
+}
+
+nav ul li a:hover::before {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(0,212,255,0.2);
+}
+
+/* ===================================================
+   5. MAIN CONTENT & LAYOUT
+   =================================================== */
+main {
+  padding-top: 90px;
+  min-height: 100vh;
+  padding-bottom: var(--spacing-3xl);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+}
+
+/* ===================================================
+   6. CARDS & GRID SYSTEM
+   =================================================== */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-2xl);
+}
+
+.car-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: var(--transition-normal);
+  position: relative;
+  cursor: pointer;
+}
+
+.car-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+}
+
+.car-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--primary-accent);
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.3),
+    0 0 30px rgba(0,212,255,0.3);
+}
+
+.car-card:hover::before {
+  transform: scaleX(1);
+}
+
+.car-image-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background: var(--gradient-dark);
+}
+
+.car-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-slow);
+}
+
+.car-card:hover img {
+  transform: scale(1.1);
+}
+
+.no-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 3rem;
+  color: var(--neutral-600);
+  background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(153,51,255,0.1));
+}
+
+.car-info {
+  padding: var(--spacing-lg);
+}
+
+.car-brand {
+  font-family: var(--font-accent);
+  font-size: 0.875rem;
+  color: var(--primary-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--spacing-xs);
+}
+
+.car-model {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neutral-100);
+  margin-bottom: var(--spacing-sm);
+}
+
+.car-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.car-year {
+  font-size: 0.875rem;
+  color: var(--neutral-400);
+}
+
+.car-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: var(--gradient-success);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===================================================
+   7. FORMS & INPUTS
+   =================================================== */
+.form-container {
+  max-width: 600px;
+  margin: var(--spacing-3xl) auto;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-accent);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="file"],
+select,
+textarea {
+  width: 100%;
+  padding: var(--spacing-md);
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(0,212,255,0.2);
+  border-radius: var(--radius-md);
+  color: var(--neutral-100);
+  font-size: 1rem;
+  transition: var(--transition-normal);
+  outline: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary-accent);
+  background: rgba(0,212,255,0.05);
+  box-shadow: 
+    0 0 0 3px rgba(0,212,255,0.1),
+    0 0 20px rgba(0,212,255,0.2);
+}
+
+input::placeholder {
+  color: var(--neutral-500);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* File Input Custom Styling */
+input[type="file"] {
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  background: var(--gradient-primary);
+  color: var(--primary-dark);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: var(--spacing-md);
+  transition: var(--transition-normal);
+}
+
+input[type="file"]::file-selector-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,212,255,0.4);
+}
+
+/* ===================================================
+   8. BUTTONS
+   =================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  min-width: 150px;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  z-index: -1;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: var(--primary-dark);
+  box-shadow: 0 4px 15px rgba(0,212,255,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,212,255,0.5);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.1);
+  color: var(--neutral-100);
+  border: 2px solid rgba(0,212,255,0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(0,212,255,0.1);
+  border-color: var(--primary-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,212,255,0.3);
+}
+
+.btn-danger {
+  background: var(--gradient-danger);
+  color: var(--neutral-100);
+  box-shadow: 0 4px 15px rgba(255,0,85,0.3);
+}
+
+.btn-danger:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255,0,85,0.5);
+}
+
+.btn-success {
+  background: var(--gradient-success);
+  color: var(--primary-dark);
+  box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+}
+
+.btn-success:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,255,136,0.5);
+}
+
+.btn-group {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-top: var(--spacing-xl);
+}
+
+/* ===================================================
+   9. SEARCH BAR
+   =================================================== */
+.search-container {
+  max-width: 600px;
+  margin: var(--spacing-2xl) auto;
+  position: relative;
+}
+
+.search-form {
+  display: flex;
+  gap: var(--spacing-md);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(0,212,255,0.2);
+  border-radius: var(--radius-full);
+  padding: var(--spacing-sm);
+  transition: var(--transition-normal);
+}
+
+.search-form:focus-within {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 30px rgba(0,212,255,0.3);
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--neutral-100);
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--neutral-500);
+}
+
+.search-button {
+  background: var(--gradient-primary);
+  color: var(--primary-dark);
+  border: none;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.search-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(0,212,255,0.5);
+}
+
+/* ===================================================
+   10. DETAIL PAGE
+   =================================================== */
+.detail-container {
+  max-width: 1000px;
+  margin: var(--spacing-3xl) auto;
+}
+
+.detail-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.detail-image {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  background: var(--gradient-dark);
+}
+
+.detail-content {
+  padding: var(--spacing-2xl);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.detail-title h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.detail-price {
+  font-size: 2rem;
+  font-weight: 700;
+  background: var(--gradient-success);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.detail-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.spec-item {
+  background: rgba(255,255,255,0.03);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0,212,255,0.1);
+}
+
+.spec-label {
+  font-size: 0.875rem;
+  color: var(--primary-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-xs);
+}
+
+.spec-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--neutral-100);
+}
+
+.detail-bio {
+  background: rgba(255,255,255,0.03);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0,212,255,0.1);
+  margin-bottom: var(--spacing-xl);
+}
+
+.detail-bio h3 {
+  margin-bottom: var(--spacing-md);
+}
+
+/* ===================================================
+   11. DELETE CONFIRMATION
+   =================================================== */
+.delete-container {
+  max-width: 500px;
+  margin: var(--spacing-3xl) auto;
+  text-align: center;
+}
+
+.delete-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,0,85,0.3);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.delete-icon {
+  font-size: 4rem;
+  color: var(--accent-danger);
+  margin-bottom: var(--spacing-lg);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.delete-message {
+  font-size: 1.125rem;
+  color: var(--neutral-200);
+  margin-bottom: var(--spacing-xl);
+}
+
+.delete-car-info {
+  background: rgba(255,255,255,0.03);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,0,85,0.2);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ===================================================
+   12. FOOTER
+   =================================================== */
+footer {
+  background: rgba(10,14,39,0.9);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0,212,255,0.2);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  margin-top: var(--spacing-3xl);
+}
+
+footer p {
+  color: var(--neutral-400);
+  font-size: 0.875rem;
+}
+
+/* ===================================================
+   13. ANIMATIONS & EFFECTS
+   =================================================== */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px rgba(0,212,255,0.5); }
+  to { box-shadow: 0 0 20px rgba(0,212,255,0.8), 0 0 30px rgba(0,212,255,0.6); }
+}
+
+/* ===================================================
+   14. RESPONSIVE DESIGN
+   =================================================== */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  
+  nav {
+    padding: var(--spacing-md);
+  }
+  
+  nav ul {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  
+  .car-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .detail-specs {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-md);
+  }
+  
+  .form-container {
+    padding: var(--spacing-lg);
+  }
+  
+  .search-form {
+    flex-direction: column;
+  }
+  
+  .search-button {
+    width: 100%;
+  }
+}
+
+/* ===================================================
+   15. UTILITY CLASSES
+   =================================================== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-1 { margin-top: var(--spacing-sm); }
+.mt-2 { margin-top: var(--spacing-md); }
+.mt-3 { margin-top: var(--spacing-lg); }
+.mt-4 { margin-top: var(--spacing-xl); }
+
+.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-2 { margin-bottom: var(--spacing-md); }
+.mb-3 { margin-bottom: var(--spacing-lg); }
+.mb-4 { margin-bottom: var(--spacing-xl); }
+
+.hidden { display: none; }
+.visible { display: block; }
+.flex { display: flex; }
+.grid { display: grid; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-accent);
+}

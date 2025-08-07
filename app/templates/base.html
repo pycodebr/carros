@@ -1,102 +1,130 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %}</title>
-  <style>
-    body {
-        font-family: 'Open Sans', sans-serif;
-        background-color: #f7f7f7;
-        color: #333;
-        margin: 0;
-        padding: 0;
-    }
-
-    header {
-        background-color: #0096c7;
-        color: #fff;
-        text-align: center;
-    }
-
-    footer {
-        background-color: #ccc;
-        color: #333;
-        padding: 20px;
-        text-align: center;
-    }
-
-    nav {
-        background-color: #0096c7;
-        color: #fff;
-        height: 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-    }
-
-    nav ul li {
-        margin: 0 10px;
-    }
-
-    nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 16px;
-        padding: 15px;
-        transition: all 0.3s ease;
-    }
-
-    nav ul li a:hover {
-        background-color: #32bbe8;
-    }
-
-    nav ul li.active a {
-        background-color: #666;
-    }
-
-    nav ul li.active a:hover {
-        background-color: #999;
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema futurístico de gerenciamento de carros - PycodeBR Multimarcas">
+    <title>{% block title %}Futuristic Cars{% endblock %} | PycodeBR Multimarcas</title>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Futuristic CSS Framework -->
+    <link rel="stylesheet" href="{% static 'css/futuristic.css' %}">
+    
+    <!-- Additional block for page-specific styles -->
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Meta tags for better performance -->
+    <meta name="theme-color" content="#0a0e27">
+    <meta name="robots" content="index, follow">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        {% if user.is_authenticated %}
-          <li>Olá, {{ user.username }}</li>
-          <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
-        {% endif %}
-        {% if not user.is_authenticated %}
-          <li><a href="{% url 'register' %}">Cadastre-se</a></li>
-          <li><a href="{% url 'login' %}">Login</a></li>
-        {% endif %}
+    <!-- Navigation Header with Glassmorphism -->
+    <header>
+        <nav>
+            <!-- Left side - Brand/Logo -->
+            <div class="nav-brand">
+                <a href="{% url 'cars_list' %}" style="font-family: var(--font-accent); font-size: 1.5rem; color: var(--primary-accent); text-decoration: none; font-weight: 900;">
+                    🚗 FUTURISTIC CARS
+                </a>
+            </div>
+            
+            <!-- Center - Main Navigation -->
+            <ul class="nav-menu">
+                {% if not user.is_authenticated %}
+                    <li><a href="{% url 'register' %}">
+                        <span>📝</span>
+                        Cadastre-se
+                    </a></li>
+                    <li><a href="{% url 'login' %}">
+                        <span>🔐</span>
+                        Login
+                    </a></li>
+                {% endif %}
+                
+                <li><a href="{% url 'cars_list' %}">
+                    <span>🚗</span>
+                    Carros
+                </a></li>
+                
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'new_car' %}">
+                        <span>➕</span>
+                        Cadastrar Carro
+                    </a></li>
+                {% endif %}
+            </ul>
+            
+            <!-- Right side - User Info -->
+            <div class="nav-user">
+                {% if user.is_authenticated %}
+                    <span class="user-info">
+                        <span style="margin-right: 0.5rem;">👋</span>
+                        Olá, {{ user.username }}
+                    </span>
+                    <a href="{% url 'logout' %}" class="logout-btn">
+                        <span>🚪</span>
+                        Sair
+                    </a>
+                {% else %}
+                    <span class="user-info">
+                        <span style="margin-right: 0.5rem;">👤</span>
+                        Visitante
+                    </span>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
 
-        <li><a href="{% url 'cars_list' %}">Carros</a></li>
+    <!-- Messages Display -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-        {% if user.is_authenticated %}
-          <li><a href="{% url 'logout' %}">Sair</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-  </header>
+    <!-- Main Content Area -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+    <!-- Futuristic Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>
+                &copy; 2024 
+                <span class="footer-brand">PycodeBR Multimarcas</span> 
+                - Sistema Futurístico de Gerenciamento Automotivo
+            </p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">
+                Tecnologia do futuro, hoje. 🚀
+            </p>
+        </div>
+    </footer>
 
-  <footer>
-    <p>&copy; 2023 PycodeBR Multimarcas</p>
-  </footer>
+    <!-- JavaScript for Enhanced Interactions -->
+    <script src="{% static 'js/animations.js' %}"></script>
+    
+    <!-- Additional block for page-specific scripts -->
+    {% block extra_js %}{% endblock %}
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "PycodeBR Multimarcas",
+        "description": "Sistema futurístico de gerenciamento de carros",
+        "url": "{{ request.build_absolute_uri }}"
+    }
+    </script>
 </body>
 </html>

@@ -1,123 +1,681 @@
 {% extends "base.html" %}
 
+{% block title %}Editar {{ object.brand }} {{ object.model }}{% endblock %}
+
 {% block content %}
-
-  <style>
-    form {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f5f5f5;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    form h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    table {
-      margin: 0 auto;
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 600px;
-    }
-
-    th, td {
-      padding: 4px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    input[type="text"], input[type="number"], select, textarea {
-      padding: 8px;
-      font-size: 14px;
-      border: 2px solid #ddd;
-      border-radius: 4px;
-      width: 100%;
-      max-width: 300px;
-      margin-bottom: 8px;
-      transition: border-bottom-color 0.3s ease-in-out;
-    }
-
-    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
-      outline: none;
-      border-bottom-color: #0096c7;
-    }
-
-    .btn {
-      background-color: #0096c7;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-    }
-
-    .buttons-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      background-color: #0096c7;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-      margin: 0 10px;
-    }
-
-    .btn:hover {
-      background-color: #108eb8;
-    }
-
-    .btn-danger {
-      background-color: #d9534f;
-      text-decoration: none !important;
-    }
-
-    .btn-danger:hover {
-      background-color: #d2221c;
-    }
-
-    .error-message {
-      color: #d9534f;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    a {
-      text-decoration: none !important;
-    }
-
-  </style>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h1>Editar Carro</h1>
-    <table>
-      {{ form.as_table }}
-    </table>
-    <div>
-      <div class="buttons-container">
-        <input type="submit" value="Salvar Alterações" class="btn btn-primary">
-        <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar Carro</a>
-        <a href="{% url 'cars_list' %}" class="btn btn-secondary">Cancelar</a>
-      </div>
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb">
+        <a href="{% url 'cars_list' %}">🏠 Catálogo</a>
+        <span>›</span>
+        <a href="{% url 'car_detail' object.pk %}">{{ object.brand }} {{ object.model }}</a>
+        <span>›</span>
+        <span>Editar</span>
     </div>
-  </form>
+
+    <!-- Form Header -->
+    <div class="form-container fade-in">
+        <div class="form-header">
+            <h1 class="form-title">✏️ Editar Veículo</h1>
+            <div class="current-car-info">
+                <div class="car-preview">
+                    {% if object.photo %}
+                        <img src="{{ object.photo.url }}" alt="{{ object.brand }} {{ object.model }}" class="preview-thumb">
+                    {% else %}
+                        <div class="preview-placeholder">🚗</div>
+                    {% endif %}
+                    <div class="car-name">{{ object.brand }} {{ object.model }}</div>
+                </div>
+            </div>
+            <p style="text-align: center; color: rgba(255,255,255,0.8); margin-bottom: 2rem;">
+                Atualize as informações do seu veículo
+            </p>
+        </div>
+
+        <!-- Modern Form -->
+        <form method="post" enctype="multipart/form-data" class="futuristic-form">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                <!-- Brand Field -->
+                <div class="form-group">
+                    {{ form.brand }}
+                    <label for="{{ form.brand.id_for_label }}" class="floating-label">
+                        🏭 {{ form.brand.label }}
+                    </label>
+                    {% if form.brand.errors %}
+                        <div class="error-message">{{ form.brand.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Model Field -->
+                <div class="form-group">
+                    {{ form.model }}
+                    <label for="{{ form.model.id_for_label }}" class="floating-label">
+                        🚙 {{ form.model.label }}
+                    </label>
+                    {% if form.model.errors %}
+                        <div class="error-message">{{ form.model.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Factory Year Field -->
+                <div class="form-group">
+                    {{ form.factory_year }}
+                    <label for="{{ form.factory_year.id_for_label }}" class="floating-label">
+                        📅 {{ form.factory_year.label }}
+                    </label>
+                    {% if form.factory_year.errors %}
+                        <div class="error-message">{{ form.factory_year.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Model Year Field -->
+                <div class="form-group">
+                    {{ form.model_year }}
+                    <label for="{{ form.model_year.id_for_label }}" class="floating-label">
+                        🗓️ {{ form.model_year.label }}
+                    </label>
+                    {% if form.model_year.errors %}
+                        <div class="error-message">{{ form.model_year.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Plate Field -->
+                <div class="form-group">
+                    {{ form.plate }}
+                    <label for="{{ form.plate.id_for_label }}" class="floating-label">
+                        🏷️ {{ form.plate.label }}
+                    </label>
+                    {% if form.plate.errors %}
+                        <div class="error-message">{{ form.plate.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Value Field -->
+                <div class="form-group">
+                    {{ form.value }}
+                    <label for="{{ form.value.id_for_label }}" class="floating-label">
+                        💰 {{ form.value.label }}
+                    </label>
+                    {% if form.value.errors %}
+                        <div class="error-message">{{ form.value.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Photo Upload Section -->
+            <div class="form-group photo-upload-group">
+                <div class="upload-area" id="photo-upload-area">
+                    {{ form.photo }}
+                    
+                    {% if object.photo %}
+                        <div class="current-photo">
+                            <img src="{{ object.photo.url }}" alt="Foto atual" id="current-image">
+                            <div class="photo-overlay">
+                                <div class="overlay-content">
+                                    <h3>📸 Foto Atual</h3>
+                                    <p>Clique para alterar ou arraste uma nova imagem</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="upload-placeholder">
+                            <div class="upload-icon">📸</div>
+                            <h3>Adicionar Foto do Veículo</h3>
+                            <p>Clique para selecionar ou arraste uma imagem aqui</p>
+                            <div class="upload-formats">
+                                Formatos: JPG, PNG, WebP (Máx: 5MB)
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="upload-preview" style="display: none;">
+                        <img id="preview-image" src="" alt="Preview">
+                        <button type="button" class="remove-preview">✕</button>
+                        <div class="preview-label">Nova foto selecionada</div>
+                    </div>
+                </div>
+                {% if form.photo.errors %}
+                    <div class="error-message">{{ form.photo.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Biography/Description Field -->
+            <div class="form-group">
+                {{ form.bio }}
+                <label for="{{ form.bio.id_for_label }}" class="floating-label">
+                    📝 {{ form.bio.label }}
+                </label>
+                <div class="form-help">
+                    Atualize características especiais, histórico, condição do veículo, etc.
+                </div>
+                {% if form.bio.errors %}
+                    <div class="error-message">{{ form.bio.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="form-btn">
+                    <span>💾 Salvar Alterações</span>
+                </button>
+                
+                <a href="{% url 'car_detail' object.pk %}" class="btn btn-secondary">
+                    <span>👁️ Visualizar</span>
+                </a>
+                
+                <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">
+                    <span>🗑️ Excluir</span>
+                </a>
+                
+                <a href="{% url 'cars_list' %}" class="btn btn-secondary">
+                    <span>↩️ Cancelar</span>
+                </a>
+            </div>
+        </form>
+
+        <!-- Form Warning -->
+        <div class="form-warning glass-card" style="margin-top: 2rem; border-left: 4px solid var(--accent-blue);">
+            <h4 style="color: var(--accent-blue); margin-bottom: 1rem;">ℹ️ Informações Importantes:</h4>
+            <ul>
+                <li>🔄 As alterações serão salvas permanentemente</li>
+                <li>📸 Ao alterar a foto, a anterior será substituída</li>
+                <li>💰 Valores devem ser inseridos em reais (sem símbolos)</li>
+                <li>🚫 Deixe campos vazios se não quiser alterar</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Car Update Form Specific Styles */
+    .breadcrumb {
+        max-width: 1000px;
+        margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        color: rgba(255,255,255,0.8);
+    }
+    
+    .breadcrumb a {
+        color: var(--accent-cyan);
+        text-decoration: none;
+        transition: var(--transition-fast);
+    }
+    
+    .breadcrumb a:hover {
+        text-shadow: 0 0 10px rgba(0,255,255,0.5);
+    }
+    
+    .form-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .current-car-info {
+        margin: 1.5rem 0;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .car-preview {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        border: 1px solid var(--accent-blue);
+        box-shadow: var(--glow-primary);
+    }
+    
+    .preview-thumb {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 2px solid var(--accent-cyan);
+    }
+    
+    .preview-placeholder {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        background: var(--gradient-primary);
+        border-radius: 10px;
+        border: 2px solid var(--accent-cyan);
+    }
+    
+    .car-name {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        color: var(--accent-cyan);
+        font-size: 1.2rem;
+    }
+    
+    .futuristic-form {
+        position: relative;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .form-group {
+        position: relative;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 1.2rem 1.5rem;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-family: var(--font-body);
+        transition: var(--transition-fast);
+        outline: none;
+    }
+    
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: transparent;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: var(--accent-blue);
+        box-shadow: var(--glow-primary);
+        transform: translateY(-2px);
+    }
+    
+    .floating-label {
+        position: absolute;
+        top: -0.5rem;
+        left: 1.5rem;
+        color: var(--accent-blue);
+        pointer-events: none;
+        transition: var(--transition-fast);
+        background: var(--primary-dark);
+        padding: 0 0.5rem;
+        font-size: 0.9rem;
+        text-shadow: 0 0 10px rgba(0,212,255,0.5);
+    }
+    
+    .form-group select option {
+        background: var(--secondary-dark);
+        color: #ffffff;
+        padding: 0.5rem;
+    }
+    
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+    
+    /* Photo Upload Styles for Update */
+    .photo-upload-group {
+        grid-column: 1 / -1;
+    }
+    
+    .upload-area {
+        position: relative;
+        min-height: 250px;
+        border: 2px dashed rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        transition: var(--transition-fast);
+        cursor: pointer;
+        overflow: hidden;
+    }
+    
+    .upload-area:hover {
+        border-color: var(--accent-blue);
+        background: rgba(0, 212, 255, 0.1);
+        box-shadow: var(--glow-primary);
+    }
+    
+    .upload-area input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 3;
+    }
+    
+    .current-photo {
+        position: relative;
+        height: 250px;
+        width: 100%;
+    }
+    
+    .current-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+    }
+    
+    .photo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: var(--transition-smooth);
+        border-radius: 18px;
+    }
+    
+    .upload-area:hover .photo-overlay {
+        opacity: 1;
+    }
+    
+    .overlay-content {
+        text-align: center;
+        color: #ffffff;
+    }
+    
+    .overlay-content h3 {
+        margin-bottom: 0.5rem;
+        color: var(--accent-cyan);
+        font-family: var(--font-heading);
+    }
+    
+    .upload-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem;
+        text-align: center;
+        height: 250px;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+    }
+    
+    .upload-placeholder h3 {
+        color: var(--accent-cyan);
+        margin-bottom: 0.5rem;
+        font-family: var(--font-heading);
+    }
+    
+    .upload-placeholder p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 1rem;
+    }
+    
+    .upload-formats {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    
+    .upload-preview {
+        position: relative;
+        height: 250px;
+    }
+    
+    .upload-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+    }
+    
+    .remove-preview {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 51, 51, 0.9);
+        border: none;
+        color: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        z-index: 4;
+        transition: var(--transition-fast);
+    }
+    
+    .remove-preview:hover {
+        background: rgba(255, 51, 51, 1);
+        transform: scale(1.1);
+    }
+    
+    .preview-label {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        background: rgba(0, 212, 255, 0.9);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    .form-help {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-style: italic;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 3rem;
+        flex-wrap: wrap;
+    }
+    
+    .form-warning {
+        padding: 2rem;
+    }
+    
+    .form-warning ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .form-warning li {
+        margin: 0.8rem 0;
+        padding: 0.5rem 0;
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .form-warning li:last-child {
+        border-bottom: none;
+    }
+    
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-container {
+            margin: 1rem;
+            padding: 2rem 1.5rem;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .form-actions .btn,
+        .form-actions .form-btn {
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        .upload-placeholder,
+        .upload-preview,
+        .current-photo {
+            height: 200px;
+        }
+        
+        .upload-placeholder {
+            padding: 2rem 1rem;
+        }
+        
+        .car-preview {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .breadcrumb {
+            margin: 0 1rem 2rem;
+            flex-wrap: wrap;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Photo upload preview functionality for update form
+    const photoInput = document.getElementById('{{ form.photo.id_for_label }}');
+    const uploadArea = document.getElementById('photo-upload-area');
+    const currentPhoto = uploadArea.querySelector('.current-photo');
+    const placeholder = uploadArea.querySelector('.upload-placeholder');
+    const preview = uploadArea.querySelector('.upload-preview');
+    const previewImg = document.getElementById('preview-image');
+    const removeBtn = uploadArea.querySelector('.remove-preview');
+    
+    if (photoInput) {
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Por favor, selecione um arquivo de imagem válido (JPG, PNG ou WebP)');
+                    return;
+                }
+                
+                // Validate file size (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('A imagem deve ter no máximo 5MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    
+                    // Hide current elements
+                    if (currentPhoto) currentPhoto.style.display = 'none';
+                    if (placeholder) placeholder.style.display = 'none';
+                    
+                    // Show preview
+                    preview.style.display = 'block';
+                    uploadArea.style.borderStyle = 'solid';
+                    uploadArea.style.borderColor = 'var(--success-green)';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    if (removeBtn) {
+        removeBtn.addEventListener('click', function() {
+            photoInput.value = '';
+            
+            // Show original elements
+            if (currentPhoto) {
+                currentPhoto.style.display = 'block';
+            } else if (placeholder) {
+                placeholder.style.display = 'flex';
+            }
+            
+            // Hide preview
+            preview.style.display = 'none';
+            uploadArea.style.borderStyle = 'dashed';
+            uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        });
+    }
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'var(--accent-blue)';
+        uploadArea.style.background = 'rgba(0, 212, 255, 0.1)';
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        uploadArea.style.background = 'rgba(255, 255, 255, 0.05)';
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        uploadArea.style.background = 'rgba(255, 255, 255, 0.05)';
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            photoInput.files = files;
+            photoInput.dispatchEvent(new Event('change'));
+        }
+    });
+    
+    // Form validation enhancement
+    const inputs = document.querySelectorAll('.form-group input, .form-group select, .form-group textarea');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.checkValidity()) {
+                this.classList.remove('error');
+                this.classList.add('success');
+            } else {
+                this.classList.remove('success');
+                this.classList.add('error');
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            this.classList.remove('error', 'success');
+        });
+    });
+});
+</script>
 {% endblock %}
