@@ -6,22 +6,22 @@
 <div class="space-y-8">
   <!-- Page Header -->
   <div class="text-center">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
       Nossos Carros
     </h1>
-    <p class="text-gray-600">
+    <p class="text-gray-600 dark:text-gray-400">
       Encontre o carro perfeito para você
     </p>
   </div>
 
   <!-- Search Form -->
-  <div class="bg-white rounded-lg shadow-md p-6">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/20 p-6 transition-colors duration-300">
     <form method="GET" action="{% url 'cars_list' %}" class="flex flex-col sm:flex-row gap-4 items-center justify-center">
       <div class="flex-1 max-w-md">
         <label for="search" class="sr-only">Buscar carro</label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
             </svg>
           </div>
@@ -30,11 +30,11 @@
                  id="search"
                  value="{{ request.GET.search }}"
                  placeholder="Buscar por marca, modelo..."
-                 class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                 class="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors">
         </div>
       </div>
       <button type="submit" 
-              class="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+              class="bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-primary-500 dark:focus:ring-primary-400">
         <span class="flex items-center">
           <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
@@ -48,14 +48,14 @@
   <!-- Search Results Info -->
   {% if request.GET.search %}
     <div class="text-center">
-      <p class="text-gray-600">
+      <p class="text-gray-600 dark:text-gray-400">
         {% if cars %}
-          Mostrando resultados para: <span class="font-semibold">"{{ request.GET.search }}"</span>
+          Mostrando resultados para: <span class="font-semibold text-gray-900 dark:text-gray-100">"{{ request.GET.search }}"</span>
         {% else %}
-          Nenhum resultado encontrado para: <span class="font-semibold">"{{ request.GET.search }}"</span>
+          Nenhum resultado encontrado para: <span class="font-semibold text-gray-900 dark:text-gray-100">"{{ request.GET.search }}"</span>
         {% endif %}
       </p>
-      <a href="{% url 'cars_list' %}" class="text-primary-600 hover:text-primary-500 text-sm font-medium">
+      <a href="{% url 'cars_list' %}" class="text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium">
         Ver todos os carros
       </a>
     </div>
@@ -66,20 +66,20 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {% for car in cars %}
         <a href="{% url 'car_detail' car.pk %}" class="group">
-          <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/20 overflow-hidden transition-all duration-300 hover:shadow-lg dark:hover:shadow-gray-900/40 hover:-translate-y-1 border border-transparent dark:border-gray-700">
             <!-- Car Image -->
-            <div class="aspect-w-16 aspect-h-9 bg-gray-200">
+            <div class="aspect-w-16 aspect-h-9 bg-gray-200 dark:bg-gray-700">
               {% if car.photo %}
                 <img src="{{ car.photo.url }}" 
                      alt="{{ car.brand }} {{ car.model }}"
                      class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
               {% else %}
-                <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
                   <div class="text-center">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <p class="mt-2 text-sm text-gray-500">Foto não disponível</p>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Foto não disponível</p>
                   </div>
                 </div>
               {% endif %}
@@ -87,22 +87,22 @@
 
             <!-- Car Info -->
             <div class="p-6">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                 {{ car.brand }} {{ car.model }}
               </h3>
-              <div class="flex items-center justify-between text-sm text-gray-600">
+              <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
                 <span class="flex items-center">
                   <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                   </svg>
                   {{ car.factory_year }}
                 </span>
-                <span class="text-lg font-bold text-primary-600">
+                <span class="text-lg font-bold text-primary-600 dark:text-primary-400">
                   R$ {{ car.value|floatformat:2 }}
                 </span>
               </div>
               {% if car.bio %}
-                <p class="mt-2 text-sm text-gray-500 line-clamp-2">
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
                   {{ car.bio|truncatewords:15 }}
                 </p>
               {% endif %}
@@ -114,19 +114,19 @@
   {% else %}
     <!-- Empty State -->
     <div class="text-center py-12">
-      <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg class="mx-auto h-24 w-24 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1z" />
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 6h.01M8 10h.01M8 14h.01" />
       </svg>
-      <h3 class="mt-4 text-lg font-medium text-gray-900">
+      <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">
         {% if request.GET.search %}
           Nenhum carro encontrado
         {% else %}
           Nenhum carro cadastrado
         {% endif %}
       </h3>
-      <p class="mt-2 text-gray-500">
+      <p class="mt-2 text-gray-500 dark:text-gray-400">
         {% if request.GET.search %}
           Tente uma busca diferente ou veja todos os carros disponíveis.
         {% else %}
@@ -136,7 +136,7 @@
       {% if user.is_authenticated %}
         <div class="mt-6">
           <a href="{% url 'new_car' %}" 
-             class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+             class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors">
             <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>

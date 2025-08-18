@@ -6,9 +6,9 @@
 <div class="max-w-md mx-auto">
   <!-- Breadcrumb Navigation -->
   <nav class="mb-8" aria-label="Breadcrumb">
-    <ol class="flex items-center space-x-2 text-sm text-gray-500">
+    <ol class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
       <li>
-        <a href="{% url 'cars_list' %}" class="hover:text-primary-600 transition-colors">
+        <a href="{% url 'cars_list' %}" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
           Carros
         </a>
       </li>
@@ -18,7 +18,7 @@
         </svg>
       </li>
       <li>
-        <a href="{% url 'car_detail' pk=object.pk %}" class="hover:text-primary-600 transition-colors">
+        <a href="{% url 'car_detail' pk=object.pk %}" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
           {{ object.brand }} {{ object.model }}
         </a>
       </li>
@@ -27,24 +27,24 @@
           <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
         </svg>
       </li>
-      <li class="text-gray-900 font-medium">
+      <li class="text-gray-900 dark:text-gray-100 font-medium">
         Deletar
       </li>
     </ol>
   </nav>
 
   <!-- Delete Confirmation Card -->
-  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/20 overflow-hidden">
     <!-- Warning Header -->
-    <div class="bg-red-50 border-b border-red-200 px-6 py-4">
+    <div class="bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800/60 px-6 py-4">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <svg class="h-6 w-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+          <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
           </svg>
         </div>
         <div class="ml-3">
-          <h1 class="text-lg font-medium text-red-900">
+          <h1 class="text-lg font-medium text-red-900 dark:text-red-200">
             Deletar Carro
           </h1>
         </div>
@@ -55,10 +55,10 @@
     <div class="px-6 py-6">
       <!-- Car Information -->
       <div class="text-center mb-6">
-        <h2 class="text-xl font-semibold text-gray-900 mb-2">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
           {{ object.brand }} {{ object.model }}
         </h2>
-        <div class="text-sm text-gray-500 space-y-1">
+        <div class="text-sm text-gray-500 dark:text-gray-400 space-y-1">
           <p>Ano: {{ object.factory_year }}</p>
           <p>Placa: {{ object.plate }}</p>
           <p>Preço: R$ {{ object.value|floatformat:2 }}</p>
@@ -66,18 +66,18 @@
       </div>
 
       <!-- Warning Message -->
-      <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4 mb-6">
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/60 rounded-md p-4 mb-6">
         <div class="flex">
           <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="h-5 w-5 text-yellow-400 dark:text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
           </div>
           <div class="ml-3">
-            <h3 class="text-sm font-medium text-yellow-800">
+            <h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
               Atenção!
             </h3>
-            <div class="mt-1 text-sm text-yellow-700">
+            <div class="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
               <p>Esta ação não pode ser desfeita. Todos os dados relacionados a este carro serão permanentemente removidos.</p>
             </div>
           </div>
@@ -86,9 +86,9 @@
 
       <!-- Confirmation Question -->
       <div class="text-center mb-6">
-        <p class="text-gray-700">
+        <p class="text-gray-700 dark:text-gray-300">
           Tem certeza que deseja deletar o carro 
-          <span class="font-semibold text-gray-900">{{ object.brand }} {{ object.model }}</span>?
+          <span class="font-semibold text-gray-900 dark:text-gray-100">{{ object.brand }} {{ object.model }}</span>?
         </p>
       </div>
 
@@ -98,7 +98,7 @@
         <div class="flex flex-col sm:flex-row gap-3">
           <!-- Cancel Button -->
           <a href="{% url 'car_detail' pk=object.pk %}" 
-             class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+             class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors">
             <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
@@ -107,7 +107,7 @@
 
           <!-- Delete Button -->
           <button type="submit" 
-                  class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+                  class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-red-500 dark:focus:ring-red-400 transition-colors">
             <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
@@ -117,9 +117,9 @@
       </form>
 
       <!-- Back to List Link -->
-      <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+      <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
         <a href="{% url 'cars_list' %}" 
-           class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
+           class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
           <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>

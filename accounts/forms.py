@@ -9,14 +9,16 @@ class StyledAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # Aplicar classes TailwindCSS aos widgets
+        # Aplicar classes TailwindCSS aos widgets (com dark mode)
+        input_classes = 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors'
+        
         self.fields['username'].widget.attrs.update({
-            'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm',
+            'class': input_classes,
             'placeholder': 'Digite seu nome de usuário'
         })
         
         self.fields['password'].widget.attrs.update({
-            'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm',
+            'class': input_classes,
             'placeholder': 'Digite sua senha'
         })
         
@@ -29,8 +31,8 @@ class StyledAuthenticationForm(AuthenticationForm):
         for field_name, field in self.fields.items():
             if field_name in self.errors:
                 current_class = field.widget.attrs.get('class', '')
-                # Remove classes de borda normais e adiciona classes de erro
-                error_class = current_class.replace('border-gray-300', 'border-red-300').replace('focus:ring-primary-500 focus:border-primary-500', 'focus:ring-red-500 focus:border-red-500') + ' pr-10'
+                # Remove classes de borda normais e adiciona classes de erro (dark mode aware)
+                error_class = current_class.replace('border-gray-300 dark:border-gray-600', 'border-red-300 dark:border-red-600').replace('focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400', 'focus:ring-red-500 dark:focus:ring-red-400 focus:border-red-500 dark:focus:border-red-400') + ' pr-10'
                 field.widget.attrs['class'] = error_class
 
 
@@ -44,8 +46,8 @@ class StyledUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # Aplicar classes TailwindCSS aos widgets
-        common_classes = 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm'
+        # Aplicar classes TailwindCSS aos widgets (com dark mode)
+        common_classes = 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors'
         
         self.fields['username'].widget.attrs.update({
             'class': common_classes,
@@ -72,6 +74,6 @@ class StyledUserCreationForm(UserCreationForm):
         for field_name, field in self.fields.items():
             if field_name in self.errors:
                 current_class = field.widget.attrs.get('class', '')
-                # Remove classes de borda normais e adiciona classes de erro
-                error_class = current_class.replace('border-gray-300', 'border-red-300').replace('focus:ring-primary-500 focus:border-primary-500', 'focus:ring-red-500 focus:border-red-500') + ' pr-10'
+                # Remove classes de borda normais e adiciona classes de erro (dark mode aware)
+                error_class = current_class.replace('border-gray-300 dark:border-gray-600', 'border-red-300 dark:border-red-600').replace('focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400', 'focus:ring-red-500 dark:focus:ring-red-400 focus:border-red-500 dark:focus:border-red-400') + ' pr-10'
                 field.widget.attrs['class'] = error_class

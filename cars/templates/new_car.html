@@ -6,31 +6,31 @@
 <div class="max-w-2xl mx-auto">
   <!-- Page Header -->
   <div class="text-center mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
       Cadastrar Novo Carro
     </h1>
-    <p class="text-gray-600">
+    <p class="text-gray-600 dark:text-gray-400">
       Preencha as informações do carro que deseja cadastrar
     </p>
   </div>
 
   <!-- Form Container -->
-  <div class="bg-white rounded-lg shadow-md p-8">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/20 p-8 border border-transparent dark:border-gray-700 transition-colors duration-300">
     <form method="post" enctype="multipart/form-data" class="space-y-6">
       {% csrf_token %}
       
       <!-- Display form errors -->
       {% if form.non_field_errors %}
-        <div class="bg-red-50 border border-red-200 rounded-md p-4">
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-md p-4">
           <div class="flex">
             <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="h-5 w-5 text-red-400 dark:text-red-300" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
               </svg>
             </div>
             <div class="ml-3">
               {% for error in form.non_field_errors %}
-                <p class="text-sm text-red-800">{{ error }}</p>
+                <p class="text-sm text-red-800 dark:text-red-200">{{ error }}</p>
               {% endfor %}
             </div>
           </div>
@@ -41,14 +41,14 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Model Field -->
         <div>
-          <label for="{{ form.model.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="{{ form.model.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ form.model.label }}
           </label>
           <div class="relative">
             {{ form.model }}
             {% if form.model.errors %}
               <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
@@ -57,7 +57,7 @@
           {% if form.model.errors %}
             <div class="mt-1">
               {% for error in form.model.errors %}
-                <p class="text-sm text-red-600">{{ error }}</p>
+                <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
               {% endfor %}
             </div>
           {% endif %}
@@ -65,14 +65,14 @@
 
         <!-- Brand Field -->
         <div>
-          <label for="{{ form.brand.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="{{ form.brand.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ form.brand.label }}
           </label>
           <div class="relative">
             {{ form.brand }}
             {% if form.brand.errors %}
               <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
@@ -81,7 +81,7 @@
           {% if form.brand.errors %}
             <div class="mt-1">
               {% for error in form.brand.errors %}
-                <p class="text-sm text-red-600">{{ error }}</p>
+                <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
               {% endfor %}
             </div>
           {% endif %}
@@ -89,14 +89,14 @@
 
         <!-- Factory Year Field -->
         <div>
-          <label for="{{ form.factory_year.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="{{ form.factory_year.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ form.factory_year.label }}
           </label>
           <div class="relative">
             {{ form.factory_year }}
             {% if form.factory_year.errors %}
               <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
@@ -105,7 +105,7 @@
           {% if form.factory_year.errors %}
             <div class="mt-1">
               {% for error in form.factory_year.errors %}
-                <p class="text-sm text-red-600">{{ error }}</p>
+                <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
               {% endfor %}
             </div>
           {% endif %}
@@ -113,14 +113,14 @@
 
         <!-- Model Year Field -->
         <div>
-          <label for="{{ form.model_year.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="{{ form.model_year.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ form.model_year.label }}
           </label>
           <div class="relative">
             {{ form.model_year }}
             {% if form.model_year.errors %}
               <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
@@ -129,7 +129,7 @@
           {% if form.model_year.errors %}
             <div class="mt-1">
               {% for error in form.model_year.errors %}
-                <p class="text-sm text-red-600">{{ error }}</p>
+                <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
               {% endfor %}
             </div>
           {% endif %}
@@ -137,14 +137,14 @@
 
         <!-- Plate Field -->
         <div>
-          <label for="{{ form.plate.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="{{ form.plate.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ form.plate.label }}
           </label>
           <div class="relative">
             {{ form.plate }}
             {% if form.plate.errors %}
               <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
@@ -153,7 +153,7 @@
           {% if form.plate.errors %}
             <div class="mt-1">
               {% for error in form.plate.errors %}
-                <p class="text-sm text-red-600">{{ error }}</p>
+                <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
               {% endfor %}
             </div>
           {% endif %}
@@ -161,17 +161,17 @@
 
         <!-- Value Field -->
         <div>
-          <label for="{{ form.value.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="{{ form.value.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ form.value.label }}
           </label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <span class="text-gray-500 sm:text-sm">R$</span>
+              <span class="text-gray-500 dark:text-gray-400 sm:text-sm">R$</span>
             </div>
             {{ form.value }}
             {% if form.value.errors %}
               <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
@@ -180,7 +180,7 @@
           {% if form.value.errors %}
             <div class="mt-1">
               {% for error in form.value.errors %}
-                <p class="text-sm text-red-600">{{ error }}</p>
+                <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
               {% endfor %}
             </div>
           {% endif %}
@@ -189,28 +189,28 @@
 
       <!-- Photo Field -->
       <div>
-        <label for="{{ form.photo.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+        <label for="{{ form.photo.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           {{ form.photo.label }}
         </label>
-        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-gray-400 transition-colors">
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
           <div class="space-y-1 text-center">
-            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+            <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
               <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <div class="flex text-sm text-gray-600">
-              <label for="{{ form.photo.id_for_label }}" class="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
+            <div class="flex text-sm text-gray-600 dark:text-gray-400">
+              <label for="{{ form.photo.id_for_label }}" class="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-800 focus-within:ring-primary-500 dark:focus-within:ring-primary-400">
                 <span>Escolher arquivo</span>
                 {{ form.photo }}
               </label>
               <p class="pl-1">ou arraste e solte</p>
             </div>
-            <p class="text-xs text-gray-500">PNG, JPG até 10MB</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG até 10MB</p>
           </div>
         </div>
         {% if form.photo.errors %}
           <div class="mt-1">
             {% for error in form.photo.errors %}
-              <p class="text-sm text-red-600">{{ error }}</p>
+              <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
             {% endfor %}
           </div>
         {% endif %}
@@ -219,14 +219,14 @@
       <!-- Bio Field -->
       {% if form.bio %}
         <div>
-          <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+          <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ form.bio.label }}
           </label>
           <div class="relative">
             {{ form.bio }}
             {% if form.bio.errors %}
               <div class="absolute top-2 right-2 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                 </svg>
               </div>
@@ -235,22 +235,22 @@
           {% if form.bio.errors %}
             <div class="mt-1">
               {% for error in form.bio.errors %}
-                <p class="text-sm text-red-600">{{ error }}</p>
+                <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
               {% endfor %}
             </div>
           {% endif %}
-          <p class="mt-1 text-xs text-gray-500">Informações adicionais sobre o carro (opcional)</p>
+          <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Informações adicionais sobre o carro (opcional)</p>
         </div>
       {% endif %}
 
       <!-- Submit Button -->
-      <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+      <div class="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
         <a href="{% url 'cars_list' %}" 
-           class="text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors">
+           class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-sm font-medium transition-colors">
           ← Voltar para lista
         </a>
         <button type="submit" 
-                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-500 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors">
           <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
           </svg>

@@ -8,31 +8,31 @@ class CarModelForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'model': forms.TextInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm',
+                'class': 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors',
                 'placeholder': 'Ex: Civic, Corolla, Onix...'
             }),
             'brand': forms.Select(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm'
+                'class': 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors'
             }),
             'factory_year': forms.NumberInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm',
+                'class': 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors',
                 'placeholder': 'Ex: 2020',
                 'min': 1975,
                 'max': 2025
             }),
             'model_year': forms.NumberInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm',
+                'class': 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors',
                 'placeholder': 'Ex: 2021',
                 'min': 1975,
                 'max': 2025
             }),
             'plate': forms.TextInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm uppercase',
+                'class': 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors uppercase',
                 'placeholder': 'Ex: ABC-1234 ou ABC1D23',
                 'maxlength': 8
             }),
             'value': forms.NumberInput(attrs={
-                'class': 'w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm',
+                'class': 'w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors',
                 'placeholder': '20000',
                 'min': 20000,
                 'step': 1000
@@ -42,7 +42,7 @@ class CarModelForm(forms.ModelForm):
                 'accept': 'image/*'
             }),
             'bio': forms.Textarea(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm resize-y min-h-[100px]',
+                'class': 'w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 text-sm transition-colors resize-y min-h-[100px]',
                 'placeholder': 'Descreva informações adicionais sobre o carro (opcional)...',
                 'rows': 4
             }),
@@ -66,8 +66,8 @@ class CarModelForm(forms.ModelForm):
             if field_name in self.errors:
                 current_class = field.widget.attrs.get('class', '')
                 if 'border-gray-300' in current_class:
-                    # Remove classes de borda normais e adiciona classes de erro
-                    error_class = current_class.replace('border-gray-300', 'border-red-300').replace('focus:ring-primary-500 focus:border-primary-500', 'focus:ring-red-500 focus:border-red-500')
+                    # Remove classes de borda normais e adiciona classes de erro (dark mode aware)
+                    error_class = current_class.replace('border-gray-300 dark:border-gray-600', 'border-red-300 dark:border-red-600').replace('focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400', 'focus:ring-red-500 dark:focus:ring-red-400 focus:border-red-500 dark:focus:border-red-400')
                     # Adicionar espaço para ícone de erro apenas se não for file input
                     if 'sr-only' not in current_class:
                         error_class += ' pr-10'
