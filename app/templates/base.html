@@ -3,100 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %}</title>
-  <style>
-    body {
-        font-family: 'Open Sans', sans-serif;
-        background-color: #f7f7f7;
-        color: #333;
-        margin: 0;
-        padding: 0;
+  <title>{% block title %}PycodeBR Multimarcas{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#e6f6ff',
+              100: '#b3e5ff',
+              500: '#0096c7',
+              600: '#108eb8',
+              700: '#0778a0',
+            },
+            secondary: {
+              100: '#f3f4f6',
+              200: '#e5e7eb',
+              300: '#d1d5db',
+              800: '#374151',
+              900: '#111827',
+            }
+          },
+          fontFamily: {
+            'sans': ['Open Sans', 'ui-sans-serif', 'system-ui'],
+          }
+        }
+      }
     }
-
-    header {
-        background-color: #0096c7;
-        color: #fff;
-        text-align: center;
-    }
-
-    footer {
-        background-color: #ccc;
-        color: #333;
-        padding: 20px;
-        text-align: center;
-    }
-
-    nav {
-        background-color: #0096c7;
-        color: #fff;
-        height: 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-    }
-
-    nav ul li {
-        margin: 0 10px;
-    }
-
-    nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 16px;
-        padding: 15px;
-        transition: all 0.3s ease;
-    }
-
-    nav ul li a:hover {
-        background-color: #32bbe8;
-    }
-
-    nav ul li.active a {
-        background-color: #666;
-    }
-
-    nav ul li.active a:hover {
-        background-color: #999;
-    }
-
-  </style>
+  </script>
 </head>
-<body>
-  <header>
-    <nav>
-      <ul>
-        {% if user.is_authenticated %}
-          <li>Olá, {{ user.username }}</li>
-          <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
-        {% endif %}
-        {% if not user.is_authenticated %}
-          <li><a href="{% url 'register' %}">Cadastre-se</a></li>
-          <li><a href="{% url 'login' %}">Login</a></li>
-        {% endif %}
+<body class="min-h-screen bg-gray-50 font-sans text-gray-900 flex flex-col">
+  <!-- Navigation Header -->
+  <header class="bg-primary-500 shadow-lg">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo/Brand -->
+        <div class="flex-shrink-0">
+          <a href="{% url 'cars_list' %}" class="text-white text-xl font-bold hover:text-primary-100 transition-colors">
+            PycodeBR Multimarcas
+          </a>
+        </div>
 
-        <li><a href="{% url 'cars_list' %}">Carros</a></li>
+        <!-- Desktop Navigation -->
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-center space-x-4">
+            {% if user.is_authenticated %}
+              <span class="text-primary-100 text-sm">
+                Olá, <span class="font-semibold">{{ user.username }}</span>
+              </span>
+              <a href="{% url 'new_car' %}" 
+                 class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                Cadastrar Carro
+              </a>
+            {% endif %}
+            
+            <a href="{% url 'cars_list' %}" 
+               class="text-white hover:text-primary-100 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Carros
+            </a>
 
-        {% if user.is_authenticated %}
-          <li><a href="{% url 'logout' %}">Sair</a></li>
-        {% endif %}
-      </ul>
+            {% if user.is_authenticated %}
+              <a href="{% url 'logout' %}" 
+                 class="text-white hover:text-red-200 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Sair
+              </a>
+            {% else %}
+              <a href="{% url 'register' %}" 
+                 class="text-white hover:text-primary-100 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                Cadastre-se
+              </a>
+              <a href="{% url 'login' %}" 
+                 class="bg-white text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                Login
+              </a>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
+          <button type="button" 
+                  class="text-white hover:text-primary-100 focus:outline-none focus:text-primary-100 transition-colors"
+                  onclick="toggleMobileMenu()">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Menu -->
+      <div class="md:hidden hidden" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1 border-t border-primary-600">
+          {% if user.is_authenticated %}
+            <div class="text-primary-100 px-3 py-2 text-sm">
+              Olá, <span class="font-semibold">{{ user.username }}</span>
+            </div>
+            <a href="{% url 'new_car' %}" 
+               class="block text-white hover:bg-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Cadastrar Carro
+            </a>
+          {% endif %}
+          
+          <a href="{% url 'cars_list' %}" 
+             class="block text-white hover:bg-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+            Carros
+          </a>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" 
+               class="block text-white hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Sair
+            </a>
+          {% else %}
+            <a href="{% url 'register' %}" 
+               class="block text-white hover:bg-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Cadastre-se
+            </a>
+            <a href="{% url 'login' %}" 
+               class="block text-white hover:bg-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              Login
+            </a>
+          {% endif %}
+        </div>
+      </div>
     </nav>
   </header>
 
-  <main>
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
     {% block content %}
     {% endblock %}
   </main>
 
-  <footer>
-    <p>&copy; 2023 PycodeBR Multimarcas</p>
+  <!-- Footer -->
+  <footer class="bg-secondary-200 border-t border-secondary-300">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <p class="text-center text-secondary-800 text-sm">
+        &copy; 2023 PycodeBR Multimarcas. Todos os direitos reservados.
+      </p>
+    </div>
   </footer>
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    }
+  </script>
 </body>
 </html>

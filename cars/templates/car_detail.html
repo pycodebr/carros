@@ -1,103 +1,166 @@
 {% extends "base.html" %}
 
+{% block title %}{{ object.brand }} {{ object.model }} - PycodeBR Multimarcas{% endblock %}
+
 {% block content %}
-  <style>
-    .car-card {
-      background-color: #e3e1e1;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-      overflow: hidden;
-      text-align: center;
-      transition: all 0.3s ease;
-      max-width: 500px;
-      margin: 20px auto 0;
-      margin-bottom: 20px;
-    }
+<div class="max-w-4xl mx-auto">
+  <!-- Breadcrumb Navigation -->
+  <nav class="mb-8" aria-label="Breadcrumb">
+    <ol class="flex items-center space-x-2 text-sm text-gray-500">
+      <li>
+        <a href="{% url 'cars_list' %}" class="hover:text-primary-600 transition-colors">
+          Carros
+        </a>
+      </li>
+      <li>
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+      </li>
+      <li class="text-gray-900 font-medium">
+        {{ object.brand }} {{ object.model }}
+      </li>
+    </ol>
+  </nav>
 
-    .car-card:hover {
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      transform: translateY(-2px);
-    }
+  <!-- Main Car Details -->
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="md:flex">
+      <!-- Car Image -->
+      <div class="md:w-1/2">
+        {% if object.photo %}
+          <img src="{{ object.photo.url }}" 
+               alt="{{ object.brand }} {{ object.model }}"
+               class="w-full h-64 md:h-full object-cover">
+        {% else %}
+          <div class="w-full h-64 md:h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <div class="text-center">
+              <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p class="mt-2 text-gray-500">Foto não disponível</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
 
-    .car-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
+      <!-- Car Information -->
+      <div class="md:w-1/2 p-8">
+        <!-- Title and Price -->
+        <div class="mb-6">
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">
+            {{ object.brand }} {{ object.model }}
+          </h1>
+          <p class="text-3xl font-bold text-primary-600">
+            R$ {{ object.value|floatformat:2 }}
+          </p>
+        </div>
 
-    .car-card h2 {
-      font-size: 1.5rem;
-      margin: 10px;
-    }
+        <!-- Car Specifications -->
+        <div class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="flex items-center">
+                <svg class="h-5 w-5 text-gray-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                  <p class="text-sm text-gray-500">Ano de Fabricação</p>
+                  <p class="font-semibold text-gray-900">{{ object.factory_year }}</p>
+                </div>
+              </div>
+            </div>
 
-    .car-card p {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="flex items-center">
+                <svg class="h-5 w-5 text-gray-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                  <p class="text-sm text-gray-500">Ano do Modelo</p>
+                  <p class="font-semibold text-gray-900">{{ object.model_year }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    .buttons-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="flex items-center">
+              <svg class="h-5 w-5 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <div>
+                <p class="text-sm text-gray-500">Placa</p>
+                <p class="font-semibold text-gray-900 font-mono">{{ object.plate }}</p>
+              </div>
+            </div>
+          </div>
 
-    .btn {
-      display: inline-block;
-      background-color: #0096c7;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-      margin: 0 10px;
-    }
+          <!-- Car Bio/Description -->
+          {% if object.bio %}
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="flex items-start">
+                <svg class="h-5 w-5 text-gray-400 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                  <p class="text-sm text-gray-500 mb-1">Informações Adicionais</p>
+                  <p class="text-gray-900">{{ object.bio }}</p>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
 
-    .btn:hover {
-      background-color: #108eb8;
-    }
+        <!-- Action Buttons -->
+        {% if user.is_authenticated %}
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a href="{% url 'car_update' pk=object.pk %}" 
+               class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+              <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+              </svg>
+              Editar Carro
+            </a>
+            <a href="{% url 'car_delete' pk=object.pk %}" 
+               class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+              <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+              Deletar Carro
+            </a>
+          </div>
+        {% endif %}
 
-    .btn-danger {
-      background-color: #d9534f;
-      text-decoration: none !important;
-    }
-
-    .btn-danger:hover {
-      background-color: #d2221c;
-    }
-
-    .error-message {
-      color: #d9534f;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    a {
-      text-decoration: none !important;
-    }
-  </style>
-  <div class="car-card">
-    {% if object.photo %}
-      <img src="{{ object.photo.url }}" alt="{{ object.model }} - {{ object.brand }}">
-    {% else %}
-      <p class="no-photo">Foto não disponível</p>
-    {% endif %}
-    <h2>{{ object.brand }} {{ object.model }}</h2>
-    <p><strong>Ano de fabricação:</strong> {{ object.factory_year }}</p>
-    <p><strong>Ano do modelo:</strong> {{ object.model_year }}</p>
-    <p><strong>Placa:</strong> {{ object.plate }}</p>
-    <p><strong>Preço:</strong> R$ {{ object.value }}</p>
-    {% if object.bio %}
-      <p><strong>Bio:</strong> {{ object.bio }}</p>
-    {% endif %}
-  </div>
-  {% if user.is_authenticated %}
-    <div class="buttons-container">
-      <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
-      <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+        <!-- Back to List Link -->
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <a href="{% url 'cars_list' %}" 
+             class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
+            <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Voltar para lista de carros
+          </a>
+        </div>
+      </div>
     </div>
-  {% endif %}
+  </div>
+
+  <!-- Additional Information Card -->
+  <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+    <div class="flex items-start">
+      <svg class="h-6 w-6 text-blue-600 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+      </svg>
+      <div>
+        <h3 class="text-lg font-medium text-blue-900 mb-2">
+          Interessado neste veículo?
+        </h3>
+        <p class="text-blue-800">
+          Entre em contato conosco para agendar uma visita ou obter mais informações sobre este {{ object.brand }} {{ object.model }}.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

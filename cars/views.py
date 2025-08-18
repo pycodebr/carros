@@ -31,6 +31,11 @@ class NewCarCreateView(CreateView):
     template_name = 'new_car.html'
     success_url = '/cars/'
 
+    def form_invalid(self, form):
+        # Adicionar classes de erro aos campos com erro
+        form.add_error_class_to_fields()
+        return super().form_invalid(form)
+
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class CarUpdateView(UpdateView):
@@ -40,6 +45,11 @@ class CarUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('car_detail', kwargs={'pk': self.object.pk})
+
+    def form_invalid(self, form):
+        # Adicionar classes de erro aos campos com erro
+        form.add_error_class_to_fields()
+        return super().form_invalid(form)
 
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
